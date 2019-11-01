@@ -8,6 +8,8 @@ output: html_document
 > 说明：
 > 教程都是用rmd文件写的，大体上就是支持r语言的markdown。请在rstudio中打开rmd文件。请从上往下阅读教程，并**逐个**运行代码块（就是由```{r}和```括起来的文本部分）。代码块右上方有一个绿色的三角，点击就可以运行。
 
+# R语言基础
+
 ## 补充材料：关于factor
 
 factor是R处理分类变量的一种工具。与factor相关联的是另外一个工具levels。这两个东西在下面我们一起讲
@@ -202,3 +204,136 @@ df[vect_sel,]
 ## list
 
 关于list，最重要的就是`[[]]`表示list下面的元素选取。就是这样
+
+---
+
+# 常规语句
+
+## 关系表达式
+
+```{r}
+3 == (2 + 1)
+"intermediate" != "r"
+TRUE != FALSE
+"Rchitect" != "rchitect"
+```
+
+不管是流程控制还是循环，判定表达式都是基础。判定表达式只会返回TRUE或者FALSE
+
+上面的代码展示了`==`（相等）和`!=`（不相等）两个判断符号
+
+```{r}
+(1 + 2) > 4
+"dog" < "Cats"
+TRUE <= FALSE
+```
+
+上面的代码展示了不等式比较，试一下修改不等号的方向看一下结果有什么变化
+
+## 逻辑关系符号 `& | !`
+
+用和`&`或`|`否`!`这三个符号可以进一步把关系表达式组合起来
+
+```{r}
+TRUE & TRUE
+FALSE | TRUE
+5 <= 5 & 2 < 3
+3 < 4 | 7 < 6
+!TRUE
+```
+
+比如说现在有一个向量`1:10`，我们要选取3到8之间的数据，那可以怎么写呢？
+
+```{r}
+v_a = 1:10
+sel = v_a <= 8 & v_a >=3
+v_a[sel]
+```
+ 试着参照上面的程序补全下面的代码(用___标明），提取df里面支出在40到10之间的记录
+```{r}
+sel = df[,'金额']__ -40 __ df[,'金额']__ -10 
+df[sel,]
+```
+
+## if，while，for
+
+比如说我现在想把mtcars里的记录分成4类：hp>146.7,mpg<20.09;hp<146.7,mpg<20.09;hp>146.7,mpg>20.09以及hp<146.7,mpg>20.09;这四类分别标为1,2,3和4。如何运用for循环和if来实现这个需求呢（for循环就是while循环的语法糖）
+
+首先，怎么遍历一个dataframe的各行呢？
+```{r}
+for (i in 1:nrow(mtcars)){
+  print(mtcars[i,])
+}
+```
+
+那么，如何根据hp和mpg来计算分类呢？假如现在我们有hp=150，mpg=18
+```{r}
+hp = 150
+mpg = 18
+class_n = 0
+if (hp >146.7 & mpg <20.09){
+  class_n = 1
+}else if(hp<146.7 & mpg < 20.09){
+  class_n = 2
+}else if(hp>146.7 & mpg >20.09){
+  class_n = 3
+}else{
+  class_n = 4
+}
+print(class_n)
+```
+可以看到判断的结果没有问题，现在把上面的代码放到循环的里面，然后从mtcars里面使用行号（i）和列名字（'hp'和'mpg'）来读取对应的hp以及mpg，生成各行的class_n值。
+
+这样一来我们会有很多的class_n值，应该怎么存储呢？用vector
+
+```{r}
+class_n_vect = c()
+for (i in 1:nrow(mtcars)){
+  hp = mtcars[i,'hp']
+  mpg = mtcars[i,'mpg']
+  if (hp >146.7 & mpg <20.09){
+    class_n_vect[i] = 1
+  }else if(hp<146.7 & mpg < 20.09){
+    class_n_vect[i] = 2
+  }else if(hp>146.7 & mpg >20.09){
+    class_n_vect[i] = 3
+  }else{
+    class_n_vect[i] = 4
+  }
+}
+print(class_n_vect)
+```
+
+现在我们还可以用cbind把刚刚算出来的这个class_n_vect加入mtcars数据框
+```{r}
+new_mtcars = cbind(mtcars,class_n_vect)
+head(new_mtcars)
+```
+
+如果看不到刚刚生成的class_n_vect的话可以将滚动条往右边拉一下
+
+但是说实话，没有人会这么写的，上面的操作其实不需要用for循环。
+
+每次你用for循环的时候，首先要想想，这个能不能用apply系列的语句写？是不是有内置的命令已经可以做到这个事情了？上面的代码我们用sapply结合自定义函数重新写一遍：
+
+
+```{r}
+class_n_func = function(car_record){
+  hp = car_record['hp']
+  mpg = car_record['mpg']
+  if (hp >146.7 & mpg <20.09){
+    class_n = 1
+  }else if(hp<146.7 & mpg < 20.09){
+    class_n = 2
+  }else if(hp>146.7 & mpg >20.09){
+    class_n = 3
+  }else{
+    class_n = 4
+  }
+  return(class_n)
+}
+#apply的第一个参数是应用对象，第二个参数是方向，1表示逐行遍历，2表示逐列遍历，第三格参数是函数名称
+class_n_vect = apply(mtcars,1,class_n_func)
+new_mtcars = cbind(mtcars,class_n_vect)
+print(new_mtcars)
+```
