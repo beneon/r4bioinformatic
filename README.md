@@ -25,6 +25,7 @@
 - [R语言环境的准备](00_environment_preparation.md)
 - [R语言环境的准备 视频版](https://www.bilibili.com/video/av71494308)
 - [R语言基本知识](01_introduction.md)
+- [R语言基础: 向量，矩阵，数据框和列表](https://www.bilibili.com/video/av74098925)
 - [R语言基本知识-2](...)
 
 ## 第六章 ggplot2 在生物信息绘图中的应用
