@@ -23,10 +23,9 @@
 ### 教学资源
 
 - [R语言环境的准备](00_environment_preparation.md)
-- [R语言环境的准备 视频版](https://www.bilibili.com/video/av71494308)
+- [（视频）R语言环境的准备](https://www.bilibili.com/video/av71494308)
 - [R语言基本知识](01_introduction.md)
-- [R语言基础: 向量，矩阵，数据框和列表](https://www.bilibili.com/video/av74098925)
-- [R语言基本知识-2](...)
+- [（视频）R语言基础: 向量，矩阵，数据框和列表](https://www.bilibili.com/video/av74098925)
 
 ## 第六章 ggplot2 在生物信息绘图中的应用
 
@@ -38,17 +37,20 @@
 ### 教学内容：
 
 1. 掌握使用ggplot2 绘制简单图形。
-   1. 学习安装并使用ggplot2。了解以下
-   2. 概念：
+   1. 学习安装并使用ggplot2。了解以下概念：
       1. 数据（Data）和映射（Mapping）
       2. 几何对象（Geometric）
       3. 统计变换（Statistics）
       4. 标度（Scale）
       5. 坐标系（Coordinate）
       6. 分面（Facet）和图层（Layer）
-   3. 学习用ggplot2 绘制条形图、柱状图、散点图、箱线图、折线图、饼图等。
+   2. 学习用ggplot2 绘制条形图、柱状图、散点图、箱线图、折线图、饼图等。
 2. 了解使用ggplot2 绘制复杂图形。
    1. 学习使用ggplot2 将多个单图进行组合，学习绘制热图、GSEA 富集图、网络图等复杂图形。
+
+### 教学资源
+
+[ggplot课程代码](lect02\lect02_ggplot.Rmd)
 
 ## 第七章 二代测序数据处理一般过程
 
