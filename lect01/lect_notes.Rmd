@@ -255,7 +255,109 @@ sel = df[,'金额']__ -40 __ df[,'金额']__ -10
 df[sel,]
 ```
 
-## if，while，for
+## if，while，for, function, apply
+
+### if
+
+if语句的结构如下图所示
+
+![if statement](./img/img1.jpg)
+
+现在我们考虑这样一个问题，当我们需要从一个dataframe根据行和列获取数据的时候，应该遵循怎样的一个逻辑呢？
+
+1. 行和列是数值变量
+2. 行和列不应该小于0，行不应该超过dataframe的行数，列不应该超过dataframe的列数
+3. 行和列至少要提供一个参数才能返回需要的数据（行和列不应该同时为0）
+4. 行为0的时候返回全列，同样的，列为0的时候返回全行
+5. 如果行和列都非0，返回对应的单元格
+
+```{r}
+m = 10
+n = 3
+df = mtcars
+
+if (!is.numeric(m) | (!is.numeric(n))){
+  #m或n不为数值的时候报错
+  print("m和n应该是数值")
+}else if(m<0 | m>dim(df)[1] | n<0 | n>dim(df)[2]){
+  #m或n不应该小于0或者大于df的行和列
+  print("m或n超出正常范围")
+}else if(m==0 & n==0){
+  #m和n不应该同时为0
+  print("m或n不应该同时为0")
+}else if(m==0){
+  #m为0时输出全列
+  print(df[,n])
+}else if(n==0){
+  #n为0的时候输出全行
+  print(df[m,])
+}else{
+  print(df[m,n])
+}
+```
+### for循环
+
+for循环的工作流程如下图
+
+![for](./img/img2.jpg)
+
+两种for循环方式（直接遍历集合的元素/遍历一个范围内的序号，通过序号获取元素）都是常见的做法，不过要想遍历一个dataframe的各行，第二种方式可能更常见：
+
+
+```{r}
+for (i in 1:dim(mtcars)[1]){
+  print(mtcars[i,])
+}
+```
+
+对于下面一个问题：
+
+> mtcars中，新生成一列 cyl_grp ，cyl==4的时候cyl_grp=1，cyl==6的时候，cyl_grp=2，cyl==8的时候，cyl_grp=3
+
+用for循环的话可以这么写：
+
+```{r}
+cyl_grp = c()
+# 逐行遍历mtcars
+for(i in 1:dim(mtcars)[1]){
+  # i这时候代表的是第几行
+  if(mtcars[i,'cyl']==4){
+    # cyl_grp这个向量如果竖着看，第i行就是第i个元素了：
+    cyl_grp[i]=1
+  }else if(mtcars[i,'cyl']==6){
+    cyl_grp[i]=2
+  }else if(mtcars[i,'cyl']==8){
+    cyl_grp[i]=3
+  }else{
+    # 4，6，8都不是的话就输出错误吧
+    print("ERROR")
+  }
+}
+# 利用cbind将新计算出来的cyl_grp向量并入dataframe
+mtcars_mod = cbind(mtcars,cyl_grp)
+```
+
+### function
+
+可以用类似下面的代码定义一个函数
+
+```{r}
+function_name = function(args...){
+  ...
+  return(xx)
+}
+```
+
+
+![function](./img/img3.jpg)
+
+关于函数
+
+1. 函数就像上图中间的这个机器，获取一系列的参数（parameters)，然后通过一系列的运算返回一个东西（numeric值，TRUE/FALSE，字符串，向量，dataframe等等）
+2. 函数的内部可以获取外部的信息，但是外部不能够获取内部的数据
+3. 在实现任何功能的过程中，你的操作都会分成多步，每一步都应该可以转换成一个函数。
+
+### 联用
 
 比如说我现在想把mtcars里的记录分成4类：hp>146.7,mpg<20.09;hp<146.7,mpg<20.09;hp>146.7,mpg>20.09以及hp<146.7,mpg>20.09;这四类分别标为1,2,3和4。如何运用for循环和if来实现这个需求呢（for循环就是while循环的语法糖）
 
