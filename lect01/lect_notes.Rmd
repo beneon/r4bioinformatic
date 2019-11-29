@@ -25,7 +25,7 @@ print(factor_survey_vector)
 `factor(vec)`会将vec进行整理，然后提取里面的唯一值，存储到levels里面。可以看到上面的程序运行返回结果中，关于levels的说明:`Levels: 1 2`。一般而言这个levels的排序是按照字符表顺序去排列的。接下来我们根据这个1和2代表的意义定义levels（在上面的数据中1表示男性，2表示女性）
 
 ```{r}
-levels(factor_survey_vector) <- c("女性","男性")
+factor_survey_vector = factor(survey_vector,levels=c('1','2'),labels=c('男','女'))
 factor_survey_vector
 ```
 
@@ -357,6 +357,7 @@ function_name = function(args...){
 2. 函数的内部可以获取外部的信息，但是外部不能够获取内部的数据
 3. 在实现任何功能的过程中，你的操作都会分成多步，每一步都应该可以转换成一个函数。
 
+
 ### 联用
 
 比如说我现在想把mtcars里的记录分成4类：hp>146.7,mpg<20.09;hp<146.7,mpg<20.09;hp>146.7,mpg>20.09以及hp<146.7,mpg>20.09;这四类分别标为1,2,3和4。如何运用for循环和if来实现这个需求呢（for循环就是while循环的语法糖）
@@ -416,8 +417,41 @@ head(new_mtcars)
 
 但是说实话，没有人会这么写的，上面的操作其实不需要用for循环。
 
-每次你用for循环的时候，首先要想想，这个能不能用apply系列的语句写？是不是有内置的命令已经可以做到这个事情了？上面的代码我们用sapply结合自定义函数重新写一遍：
+### apply系列函数
 
+以sapply为例这里讲解apply系列函数的概念。
+
+```
+sapply(X, FUN, ..., simplify = TRUE, USE.NAMES = TRUE)
+```
+
+sapply的第一个参数是一个**向量**，第二个参数是一个函数的名称。sapply的意义在于，逐个获取X的各个元素，作为参数交给FUN指向的函数，函数随后利用return返回运算结果。比如下面这段代码，将会计算向量中各个字符串的长度
+
+```{r}
+vect_str = c('abc','e','evo','mjk12')
+string_length = function(e){
+  return(nchar(e))
+}
+vect_len = sapply(vect_str,string_length)
+```
+可以看到上面的代码实际上就等同于
+
+```{r}
+vect_str = c('abc','e','evo','mjk12')
+vect_len = c()
+string_length = function(e){
+  return(nchar(e))
+}
+for (i in 1:length(vect_str)){
+  vect_len[i] = string_length(vect_str[i])
+}
+```
+
+每次你用for循环的时候，首先要想想，这个能不能用apply系列的语句写？是不是有内置的命令已经可以做到这个事情了？
+
+回到前面的代码，我们可以用apply实现对类似矩阵对象的遍历。
+
+apply的用法是`apply(X, MARGIN, FUN, ...)`，可以看到与sapply相比，apply多了一个参数MARGIN，MARGIN为1的时候是一行一行的喂给FUN，MARGIN为2的时候是一列一列喂给FUN
 
 ```{r}
 class_n_func = function(car_record){
@@ -434,7 +468,7 @@ class_n_func = function(car_record){
   }
   return(class_n)
 }
-#apply的第一个参数是应用对象，第二个参数是方向，1表示逐行遍历，2表示逐列遍历，第三格参数是函数名称
+# apply的第一个参数是应用对象，第二个参数是方向，1表示逐行遍历，2表示逐列遍历，第三格参数是函数名称
 class_n_vect = apply(mtcars,1,class_n_func)
 new_mtcars = cbind(mtcars,class_n_vect)
 print(new_mtcars)

@@ -14,21 +14,52 @@ output: html_document
 1.了解生物信息分析环境的依赖软件。
 2.掌握生物信息分析环境的搭建。
 （三）实验内容：
-1.R 语言的下载和安装。
-2.Bioconductor 的下载和安装。
-3.Rstudio 运行环境的搭建。
-4.熟悉Rstudio 运行界面，掌握基本操作。
+1. R 语言的下载和安装。
+2. Bioconductor 的下载和安装。
+3. Rstudio 运行环境的搭建。
+4. 熟悉Rstudio 运行界面，掌握基本操作。
+5. R 语言变量的定义。
+6. R 语言的基本语法。
 
 ## 实验讲解
 
 - [R语言环境的准备](../00_environment_preparation.md)
 - [（视频）R语言环境的准备](https://www.bilibili.com/video/av71494308)
+- [R的初级知识](../01_introduction.md)
+- [实验报告电子文档收集问卷](https://www.wjx.cn/jq/50445059.aspx)
 
 ## 实验项目
+
+### 一、准备R语言环境
 
 1. 设置R的镜像
 2. 设置Bioconductor的镜像
 3. 在电脑建立一个项目文件夹，新建一个项目
 4. 使用`?`查看install.package的帮助
-5. 使用vignette()查看主题帮助列表·  
-6. 按照按照[（视频）R语言环境的准备](https://www.bilibili.com/video/av71494308)和[R语言环境的准备](../00_environment_preparation.md)的说明在自己的电脑上安装R，Rstudio，安装ggplot2（使用install.packages)。安装好BiocManager后安装limma（使用BiocManager::install())
+5. 使用vignette()查看主题帮助列表
+6. 按照[（视频）R语言环境的准备](https://www.bilibili.com/video/av71494308)和[R语言环境的准备](../00_environment_preparation.md)的说明在自己的电脑上安装R，Rstudio，安装ggplot2（使用install.packages)。安装好BiocManager后安装limma（使用BiocManager::install())
+7. 在**纸质实验报告**中总结陈述R以及Rstudio环境搭建过程，完成1-6工作后，打开rstudio，载入limma库，给软件截图，在问卷星问卷中上传。
+
+### 二、熟悉R语言简单操作
+
+- 阅读[R的初级知识](../01_introduction.md)
+- 实验题1. 按照注释的补全以下代码（__部分），将代码保存为r代码文件，在问卷星问卷中上传。
+
+```{r}
+# 计算100除7的商
+val1 = 100 __ 7
+# 计算5的3次方
+val2 = 5 __ 3
+# 今天是周三，10天以后是星期几？
+val3 = 4 __ (10 __ 7)
+# 建立向量，三个元素分别是val1，val2和val3
+vect1 = __(__,__,__)
+# 输出val1和val2的类型
+print(__(val1))
+print(__(val2))
+# 给vect1添加第四个元素10
+vect1 = __(vect1,__)
+```
+
+- 请在**纸质实验报告本**中总结陈述建立rmarkdown笔记本的步骤
+- 请在**纸质实验报告本**中总结陈述r命令行和r源代码编辑器的不同之处

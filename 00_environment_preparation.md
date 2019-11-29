@@ -1,6 +1,6 @@
 # R运行环境准备
 
-[回到首页](README.md)
+[回到首页](README.pdf)
 [视频版](https://www.bilibili.com/video/av71494308)
 
 以下步骤都是在windows 7虚拟机下完成，安装前系统就是刚刚重装的样子。说实话不这样做我都没发现在安装的过程中会有不少的坑。
