@@ -40,7 +40,7 @@ vect1 = c('m','f','m','m','f')
 # 将vect1转换为factor
 factor_v1 = ___(__)
 v2_pool = c('xxs','xs','m','l','xl','xxl')
-vect2 = sample(v2_pool,20)
+vect2 = sample(v2_pool,20,replace=T)
 #将vect2转换为factor，注意v2_pool的'xxs','xs','m','l','xl','xxl'是从小到大的顺次排列
 #所以这是一个有序分类变量
 factor_v2 = ___(__,ordered=__,levels=__)
